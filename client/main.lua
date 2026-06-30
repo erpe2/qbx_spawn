@@ -218,12 +218,23 @@ local function inputHandler()
             TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
             TriggerEvent('QBCore:Client:OnPlayerLoaded')
             FreezeEntityPosition(cache.ped, false)
+
+            --[[
             DisplayRadar(true)
 
             local spawnData = spawns[currentButtonId]
 
             if spawnData.propertyId then
                 TriggerServerEvent('qbx_properties:server:enterProperty', { id = spawnData.propertyId, isSpawn = true })
+            else
+                SetEntityCoords(cache.ped, spawnData.coords.x, spawnData.coords.y, spawnData.coords.z, false, false, false, false)
+                SetEntityHeading(cache.ped, spawnData.coords.w or 0.0)
+            end
+            ]]
+
+            local spawnData = spawns[currentButtonId]
+            if spawnData.property_id then
+                TriggerServerEvent('ps-housing:server:enterProperty', tostring(spawnData.property_id), 'spawn')
             else
                 SetEntityCoords(cache.ped, spawnData.coords.x, spawnData.coords.y, spawnData.coords.z, false, false, false, false)
                 SetEntityHeading(cache.ped, spawnData.coords.w or 0.0)
